@@ -1,7 +1,6 @@
-let x = 1023
+let potencia = 1023
 let y = 0
-let z = 0
-let m = 0
+let graus = 0
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
     if (true) {
         pins.analogWritePin(AnalogPin.P0, 1023)
@@ -13,40 +12,45 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
 function button(a: any): number {
     
     
-    x = x - 100
-    if (x < 20) {
-        x = 1023
+    potencia = potencia - 100
+    if (potencia < 20) {
+        potencia = 1023
         y = 0
     }
     
-    return x
+    return potencia
 }
 
-// #print(x)
+// #print(potencia)
 // #print(y)
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
     
     
     y = y + 1
-    x = button(y)
-    pins.analogWritePin(AnalogPin.P0, x)
+    potencia = button(y)
+    pins.analogWritePin(AnalogPin.P0, potencia)
 })
-z = input.acceleration(Dimension.X)
-console.log(z)
-m = input.compassHeading()
+graus = input.compassHeading()
 basic.forever(function forever() {
+    let aceleracaoX = input.acceleration(Dimension.X)
+    // #print(aceleracaoX)
+    let aceleracaoY = input.acceleration(Dimension.Y)
+    // #print(aceleracaoY)
+    let aceleracaoZ = input.acceleration(Dimension.Z)
+    console.log(aceleracaoZ)
     let anterior = input.compassHeading()
     basic.pause(50)
     let atual = input.compassHeading()
     let diferenca = atual - anterior
-    if (diferenca > 2) {
+    if (diferenca > 10) {
         console.log("correcao necessaria")
     }
     
 })
+// #print(graus)
 basic.forever(function on_forever() {
-    let m = input.compassHeading()
-    if (m >= 135 && m < 225) {
+    let graus = input.compassHeading()
+    if (graus >= 135 && graus < 225) {
         basic.clearScreen()
         led.plot(0, 2)
         led.plot(1, 2)
@@ -55,7 +59,7 @@ basic.forever(function on_forever() {
         led.plot(4, 2)
         led.plot(0, 1)
         led.plot(0, 3)
-    } else if (m < 45 && m >= 0 || m <= 360 && m > 315) {
+    } else if (graus < 45 && graus >= 0 || graus <= 360 && graus > 315) {
         basic.clearScreen()
         led.plot(0, 2)
         led.plot(1, 2)
@@ -64,7 +68,7 @@ basic.forever(function on_forever() {
         led.plot(4, 2)
         led.plot(4, 1)
         led.plot(4, 3)
-    } else if (m > 225 && m < 315) {
+    } else if (graus > 225 && graus < 315) {
         basic.clearScreen()
         led.plot(2, 0)
         led.plot(2, 1)
@@ -73,7 +77,7 @@ basic.forever(function on_forever() {
         led.plot(2, 4)
         led.plot(1, 4)
         led.plot(3, 4)
-    } else if (m < 135 && m > 45) {
+    } else if (graus < 135 && graus > 45) {
         basic.clearScreen()
         led.plot(2, 0)
         led.plot(2, 1)
@@ -84,7 +88,6 @@ basic.forever(function on_forever() {
         led.plot(3, 0)
     }
     
-    console.log(m)
 })
-console.log(m)
+console.log(graus)
 let D = 0
